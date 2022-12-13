@@ -4,10 +4,13 @@ import isAuth from "../middlewares/isAuth.js";
 import attachCurrentUser from "../middlewares/attachCurrentUser.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
 import { UserModel } from "../model/user.model.js";
+import * as dotenv from "dotenv"
+
+dotenv.config()
 
 import bcrypt from "bcrypt";
 
-const SALT_ROUNDS = 10;
+
 
 const userRouter = express.Router();
 
@@ -26,13 +29,14 @@ userRouter.post("/signup", async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const salt = await bcrypt.genSalt(Number(process.env.SALT_ROUNDS));
 
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const createdUser = await UserModel.create({
       ...req.body,
       passwordHash: hashedPassword,
+      role:"USER"
     });
 
     delete createdUser._doc.passwordHash;
@@ -74,14 +78,11 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
-// userRouter.get(
-//   "/teste",
-//   isAuth,
-//   attachCurrentUser,
-//   isAdmin,
-//   async (req, res) => {
-//     return res.status(200).json(req.currentUser);
-//   }
-// );
+userRouter.get("/profile", isAuth, attachCurrentUser, (req, res) => {
+  const loggedInUser = req.currentUser;
 
+  return res.status(200).json(loggedInUser)
+}  )
+
+  
 export { userRouter };
