@@ -4,13 +4,15 @@ import { isAdmin } from "../middlewares/isAdmin.js";
 import isAuth from "../middlewares/isAuth.js";
 import {ComentarioModel} from "../model/comentario.model.js"
 import { UserModel } from "../model/user.model.js";
+import { ReceitaModel } from "../model/receita.model.js";
 
 const comentarioRouter = express.Router()
 
-comentarioRouter.post("/" , isAuth, attachCurrentUser, async(req,res) => {
+comentarioRouter.post("/:receitaId/comentario" , isAuth, attachCurrentUser, async(req,res) => {
     try{
+        const {receitaId} = req.params 
         const loggedInUser = req.currentUser
-        const comentario= await ComentarioModel.create({...req.body, criadoPor:loggedInUser._id })
+        const comentario= await ComentarioModel.create({...req.body, criadoPor:loggedInUser._id, receita:receitaId })
 
 
         await UserModel.findOneAndUpdate(
@@ -19,7 +21,13 @@ comentarioRouter.post("/" , isAuth, attachCurrentUser, async(req,res) => {
             {runValidators:true}
         )
 
+        await ReceitaModel.findOneAndUpdate(
+            {_id:receitaId},
+            {$push:{comentario:comentario._id}},
+            {runValidators:true}
+        )
         return res.status(201).json(comentario)
+        
 
     }
 catch(err){

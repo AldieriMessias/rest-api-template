@@ -43,7 +43,8 @@ receitaRouter.get("/",isAuth, attachCurrentUser, async (req,res) => {
 
 receitaRouter.get("/:receitaId", isAuth,attachCurrentUser, async(req, res) =>{
     try{
-        const receita= await ReceitaModel.findOne({_id: req.params.Id});
+        const {receitaId} = req.params
+        const receita= await ReceitaModel.findOne({_id: receitaId}).populate("comentario");
 
         return res.status(200).json(receita)
 
