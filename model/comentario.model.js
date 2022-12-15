@@ -7,4 +7,4 @@ const comentarioSchema = new Schema({
     receita:{type:Types.ObjectId, ref:"Receita"}
 })
 
-export const ComentarioModel = model("Comentario" , receitaSchema)
+export const ComentarioModel = model("Comentario" , comentarioSchema)
