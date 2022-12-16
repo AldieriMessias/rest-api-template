@@ -30,7 +30,7 @@ catch(err){
 } )
 
 
-receitaRouter.get("/",isAuth, attachCurrentUser, async (req,res) => {
+receitaRouter.get("/", async (req,res) => {
     try{
         const receita =await ReceitaModel.find({});
 
@@ -69,11 +69,11 @@ receitaRouter.put("/receitaId", isAuth, attachCurrentUser, isAdmin, async (req,r
 }
 })
 
-receitaRouter.delete("/receitaId", isAuth,attachCurrentUser, isAdmin, async (req, res) => {
+receitaRouter.delete("/:receitaId", isAuth,attachCurrentUser, isAdmin, async (req, res) => {
     try{
-        const deletedReceita = await ReceitaModel.deleteOne({
-            _id:req.params.receitaId
-        })
+
+       
+        const deletedReceita = await ReceitaModel.deleteOne({_id: req.params.receitaId})
 
         return res.status(200).json(deletedReceita)
 

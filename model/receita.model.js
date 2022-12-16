@@ -7,7 +7,8 @@ const receitaSchema = new Schema({
     tempoDePreparo:{type:String, required:true, trim:true},
     criadoEm:{type:Date, default:new Date(Date.now())},
     criadoPor:{type: Types.ObjectId, ref:"User"},
-    comentario:[{type: Types.ObjectId, ref:"Comentario"}]
+    comentario:[{type: Types.ObjectId, ref:"Comentario"}],
+    img:{type:String},
 }) 
 
 export const ReceitaModel = model("Receita" , receitaSchema)

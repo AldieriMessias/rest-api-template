@@ -23,6 +23,7 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/receitas",receitaRouter)
 app.use("/comentarios", comentarioRouter)
+app.use("/upload-image", uploadImgRouter)
 // app.use(`/api/${API_VERSION}/user`, userRouter);
 // app.use(`/api/${API_VERSION}/uploadImage`, uploadImgRouter);
 

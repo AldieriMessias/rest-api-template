@@ -16,7 +16,7 @@ cloudinaryInst.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const storage = new CloudinaryStorage({
+const cloudinaryStorage = new CloudinaryStorage({
   cloudinary: cloudinaryInst,
   params: {
     folder: "pictures",
@@ -25,6 +25,6 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const uploadImg = multer({ storage: storage });
+const uploadImg = multer({ storage: cloudinaryStorage });
 
 export { uploadImg };
