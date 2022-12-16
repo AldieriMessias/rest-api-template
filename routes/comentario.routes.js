@@ -49,7 +49,7 @@ comentarioRouter.get("/",isAuth, attachCurrentUser, async (req,res) => {
     }
 })
 
-comentarioRouter.get("/comentarioId", isAuth,attachCurrentUser, async(req, res) =>{
+comentarioRouter.get("/:comentarioId", isAuth,attachCurrentUser, async(req, res) =>{
     try{
         const comentario= await ComentarioModel.findOne({_id: req.params.comentarioId});
 
@@ -63,7 +63,7 @@ comentarioRouter.get("/comentarioId", isAuth,attachCurrentUser, async(req, res) 
 
 
 
-comentarioRouter.delete("/comentarioId", isAuth,attachCurrentUser, isAdmin, async (req, res) => {
+comentarioRouter.delete("/:comentarioId", isAuth,attachCurrentUser, isAdmin, async (req, res) => {
     try{
         const deletedComentario = await ComentarioModel.deleteOne({
             _id:req.params.comentarioId
